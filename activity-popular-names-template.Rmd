@@ -1,7 +1,7 @@
 ---
 title: 'Activity: Popular Names'
-author: "name"
-date: "June 3, 2024"
+author: "Deekshith Reddy Bhoomireddy"
+date: "July 19, 2024"
 output:
   html_document:
     df_print: paged
@@ -54,13 +54,22 @@ For steps 5-7, pick any FIVE names you wish. I choose Arnaldo, Ahmid, Nicho, Jen
 *Examine the data you have at hand - for this project the data are the ones available in the `BabyNames` data set. Use at least 2 different functions to examine your data. Then answer the questions: What are the variables are available? What is a case?*
 
 ##### What are the variables are available?
-
+The variables are: name, sex, count (Total number of babies given that name and of that sex), year (year of birth).
 
 ##### What is a case?
+A "case" refers to a specific, unique and similar unit of observation. In this dataset each baby name is a case. This dataset has totally 1792091 cases.
  
 ## Look at the data a few different ways (see Ch 9 for more).
 ```{r}
 
+#First five rows of the dataset
+head(BabyNames, n = 5)
+
+#Summary of the dataset
+summary(BabyNames)
+
+#Last five rows of the dataset
+tail(BabyNames, n = 5)
 
 ```
 
@@ -72,22 +81,24 @@ For steps 5-7, pick any FIVE names you wish. I choose Arnaldo, Ahmid, Nicho, Jen
 ### Step 3 
 
 ##### What variable(s) from the raw data table do not appear at all in the graph?
+The variable "sex" does not appear at all in the graph.
 
 ##### What variable(s) in the graph are similar to corresponding variables in the raw data table, but might have been transformed in some way?
-
+The variable "name", "year", and "popularity" are used in the graph. Variables "name" and "year" are used as raw data, without being transformed in some way. However, the "count" variable in the raw data is transformed to the "popularity" variable in the graph. Moreover, the "sex" variable from the raw data is not used in the graph. 
 
 
 ### Step 4
 
 ##### Have cases been filtered out?
-
+In the graph the cases have been filtered out to three names (Abraham, Franklin and Woodrow) which are displayed above the graph.
 
 
 ##### Have cases been grouped and summarized within groups in any way?
+In the graph the cases have been grouped accordingly by name and year, and summarized to get the total number of births  recorded for each of the names per year.
 
 
 ##### Have any new variables been introduced?  If so, what the relationship between the new variables and existing variables?
-
+The variable "popularity" has been newly introduced and was derived from the "count" variable in raw data. The "popularity" variable is derived by finding a sum of the total number of births per name and year (which can be derived from grouping and summarizing the "count" variable.)
 
 
 ### Step 5
@@ -109,7 +120,17 @@ Using the BabyNames data set, filter the data to display just the 5 names that y
 ### Step 7
 #### Create my glyph ready data set here
 ```{r}
+#Created a list of five names and stored them under the variable name "new_names".
+new_names <- c("Emma", "Mabel", "Allie", "Virgie", "Lynford")
 
+#Created a variable called "new_data" to perform the new functions and store the latest data.
+new_data <-
+  BabyNames %>%
+  filter(name %in% new_names) %>%
+  group_by(name, year) %>%
+  summarize(total = sum(count, na.rm = TRUE))
+
+view(new_data)
 
 
 ```
@@ -119,7 +140,7 @@ Using the BabyNames data set, filter the data to display just the 5 names that y
 
 Here's the sample code provided by the book:
 
-```
+```{r}
 GlyphReadyForm %>%
   ggplot(aes(x = year, y = total, group = name)) + 
   geom_line(size = 1, alpha = 0.5, aes(color = name)) + 
