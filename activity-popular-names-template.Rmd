@@ -104,13 +104,17 @@ The variable "popularity" has been newly introduced and was derived from the "co
 ### Step 5
 Using the BabyNames data set, filter the data to display just the 5 names that you picked.  Then group the cases by year and name, and count how many total births per year were recorded for each of the names (regardless of sex).  
 
-1. Select the five names
+1. Select the five names and create a list of them in "new_names"
 
-2. Filter the BabyNames dataset for only those 5 names selected in Step-1 and store the output data in separate variable as a dataframe
+2. Create a new variable named "new_data" to store the below functions.
 
-3. Use "group_by" function to group by the output data from Step-2 at "name" and "year" level
+3. Use "filter()" to filter the BabyNames dataset for only those five names you picked in step 1.
 
-4. Use "summarise" function to get the total number of births  recorded for each of the names per year on the grouped by data from Step-3
+4. Use "group_by()" function to group by the output data you got by filtering the five names according to "name" and "year" level.
+
+5. Use "summarize()" function after the "group_by" function to get the total number of births recorded for every selected names per year on the grouped by data.
+
+6. Use "view()" to view the "new_data"
 
 
 ### Step 6
@@ -124,13 +128,13 @@ Using the BabyNames data set, filter the data to display just the 5 names that y
 new_names <- c("Emma", "Mabel", "Allie", "Virgie", "Lynford")
 
 #Created a variable called "new_data" to perform the new functions and store the latest data.
-new_data <-
+GlyphReadyForm <-
   BabyNames %>%
   filter(name %in% new_names) %>%
   group_by(name, year) %>%
   summarize(total = sum(count, na.rm = TRUE))
 
-view(new_data)
+view(GlyphReadyForm)
 
 
 ```
@@ -150,6 +154,18 @@ GlyphReadyForm %>%
 ```
 
 If you prepared your `GlyphReadyForm` data set correctly, you should just be able to copy and paste this code. Alternatively, you can use `mplot` or `esquisse` to create your graph. If you choose to use these interactive functions remember, do not include the `mplot` or `esquisse` functions in your RMarkdown document. Instead, use these functions in the console and copy the generated code into your RMarkkdown document. In addition, we want lines, not dots.
+
+```{r}
+#Used the "GlyphReadyForm" dataset to create this graph.
+GlyphReadyForm %>%
+  ggplot(aes(x = year, y = total, group = name)) + 
+  geom_point(size = 1, alpha = 0.5, aes(color = name)) + 
+  ylab("Popularity") + 
+  xlab("Year") +
+  ggtitle("Popularity of Names Over Time")
+
+
+```
 
 
 
